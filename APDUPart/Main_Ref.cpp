@@ -22,7 +22,7 @@ struct APDU_N{
 };
 
 
-void main(){
+void main_ref(){
 	SCARDCONTEXT context;
 	LONG Lreturn;
 

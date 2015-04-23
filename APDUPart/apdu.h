@@ -1,4 +1,5 @@
-#pragma once
+#ifndef APDU_H
+#define APDU_H
 #include<winscard.h>
 
 #pragma comment(lib,"winscard.lib")
@@ -24,19 +25,25 @@ struct APDU_N{
 		P2;
 };
 
+//common APDU response
+struct RESPONSE{
+	BYTE * DATA;
+	BYTE SW1,
+		 SW2;
+};
 
+////////////////////////////////////
+/// GLOBLE VARIABLES DECLARATION //
 //////////////////////////////////
-/// GLOBLE VARIABLES DEFINITION //
-/////////////////////////////////
 
-SCARDCONTEXT scardContext;
-SCARDHANDLE	 scardHandle;
-SCARD_IO_REQUEST ioRequest;
-WCHAR * readerName;
-DWORD	activeProtocal;
-DWORD	cardStatus;
-
-
+extern SCARDCONTEXT scardContext;
+extern SCARDHANDLE	 scardHandle;
+extern SCARD_IO_REQUEST ioRequest;
+extern WCHAR * readerName;
+extern DWORD	activeProtocal;
+extern DWORD	scardStatus;
+extern DWORD UNKNOWN;	//DON'T ASSIGN ANY VALUE
+extern APDU GET_RESPONSE;	//COMMON GET RESPONSE APDU
 
 
 ////////////////////////////////
@@ -45,7 +52,11 @@ DWORD	cardStatus;
 
 LONG establishContext();
 LONG cardConnect();
+LONG cardReconnect();
 LONG process(LPCBYTE data, DWORD length, LPBYTE receiver, LPDWORD len);
 LONG write(LPCBYTE data, DWORD length, LPBYTE receiver, LPDWORD len);
+void startTransaction();
+void endTransaction();
 DWORD getStatus();
 
+#endif
